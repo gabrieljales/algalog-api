@@ -34,4 +34,16 @@ public class ClientController {
     public Client create(@RequestBody Client client) {
         return clientRepository.save(client);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> update(@PathVariable Long id, @RequestBody Client client) {
+        if (!clientRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        client.setId(id);
+        client = clientRepository.save(client);
+
+        return ResponseEntity.ok(client);
+    }
 }
