@@ -1,5 +1,6 @@
 package com.algaworks.algalog.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +27,13 @@ public class Delivery {
 
     private BigDecimal tax;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY) // Evitar que o cliente preencha esse campo
     @Enumerated(EnumType.STRING) // Significa que queremos armazenar a String que representa a constante da Enum, e não o número (ORDINAL)
     private DeliveryStatus status;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime orderDate;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private  LocalDateTime dueDate;
 }
