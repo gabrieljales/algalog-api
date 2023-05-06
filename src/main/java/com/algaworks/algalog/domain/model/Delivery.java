@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
@@ -43,8 +43,8 @@ public class Delivery {
     private DeliveryStatus status;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime orderDate;
+    private OffsetDateTime orderDate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private  LocalDateTime dueDate;
+    private OffsetDateTime dueDate;
 }

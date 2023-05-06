@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @Service
@@ -26,7 +26,7 @@ public class RequestDeliveryService {
         // Propriedades calculadas (não são informadas pelo usuário)
         delivery.setClient(client); // Evita de retornar o cliente com propriedades vazias e somente o ID preenchido
         delivery.setStatus(DeliveryStatus.PENDING);
-        delivery.setOrderDate(LocalDateTime.now());
+        delivery.setOrderDate(OffsetDateTime.now());
 
         return deliveryRepository.save(delivery);
     }
