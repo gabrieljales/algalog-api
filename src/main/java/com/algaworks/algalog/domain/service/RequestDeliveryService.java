@@ -21,7 +21,7 @@ public class RequestDeliveryService {
     @Transactional
     public Delivery request(Delivery delivery) {
         // OBS: Nesse caso o mais indicado é um erro 400 invés de um 404, já que houve um erro ao passar um cliente inexistente no corpo
-        Client client = clientCatalogService.get(delivery.getClient().getId());
+        Client client = clientCatalogService.findById(delivery.getClient().getId());
 
         // Propriedades calculadas (não são informadas pelo usuário)
         delivery.setClient(client); // Evita de retornar o cliente com propriedades vazias e somente o ID preenchido

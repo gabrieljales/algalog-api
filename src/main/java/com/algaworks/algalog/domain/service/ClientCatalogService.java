@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientCatalogService {
     private ClientRepository clientRepository;
 
+    public Client findById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() -> new DomainException("Cliente não encontrado"));
+    }
+
     @Transactional // Declara que esse método deve ser executado dentro de uma transação
     public Client save(Client client) {
         boolean usedEmail = clientRepository.findByEmail(client.getEmail())
