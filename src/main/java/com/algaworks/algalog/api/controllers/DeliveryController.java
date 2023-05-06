@@ -1,5 +1,7 @@
 package com.algaworks.algalog.api.controllers;
 
+import com.algaworks.algalog.api.model.DeliveryModel;
+import com.algaworks.algalog.api.model.RecipientModel;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.RequestDeliveryService;
@@ -30,9 +32,25 @@ public class DeliveryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Delivery> findById(@PathVariable Long id) {
+    public ResponseEntity<DeliveryModel> findById(@PathVariable Long id) {
         return deliveryRepository.findById(id)
-                .map(ResponseEntity::ok) // Essa linha é a mesma coisa que: .map(delivery -> ResponseEntity.ok(delivery))
+                .map(delivery -> {
+                    DeliveryModel deliveryModel = new DeliveryModel();
+                    deliveryModel.setId(delivery.getId());
+                    deliveryModel.setClientName(delivery.getClient().getName());
+                    deliveryModel.setRecipient(new RecipientModel());
+                    deliveryModel.getRecipient().setName(delivery.getRecipient().getName());
+                    deliveryModel.getRecipient().setAddress(delivery.getRecipient().getAddress());
+                    deliveryModel.getRecipient().setComplement(delivery.getRecipient().getComplement());
+                    deliveryModel.getRecipient().setNumber(delivery.getRecipient().getNumber());
+                    deliveryModel.getRecipient().setDistrict(delivery.getRecipient().getDistrict());
+                    deliveryModel.setTax(delivery.getTax());
+                    deliveryModel.setStatus(delivery.getStatus());
+                    deliveryModel.setOrderDate(delivery.getOrderDate());
+                    deliveryModel.setDueDate(delivery.getDueDate());
+
+                    return ResponseEntity.ok(deliveryModel);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }
