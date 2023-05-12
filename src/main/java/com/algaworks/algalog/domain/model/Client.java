@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Entity
 public class Client {
-    @NotNull(groups = ValidationGroups.ClientId.class) // Especificando grupo de validação
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
