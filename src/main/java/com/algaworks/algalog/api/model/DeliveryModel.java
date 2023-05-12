@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class DeliveryModel {
     private Long id;
-    private String clientName;
+    private ClientOverviewModel client;
     private RecipientModel recipient;
     private BigDecimal tax;
     private DeliveryStatus status;
