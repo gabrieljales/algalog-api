@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
@@ -27,10 +29,25 @@ public class Delivery {
 
     private BigDecimal tax;
 
+    // mappedBy: Nome da propriedade "dona" do relacionamento, cascade: cascateamento para sincronizar as ocorrencias no banco de dados
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
+    private List<Occurrence> occurrences = new ArrayList<>();
+
     @Enumerated(EnumType.STRING) // Significa que queremos armazenar a String que representa a constante da Enum, e não o número (ORDINAL)
     private DeliveryStatus status;
 
     private OffsetDateTime orderDate;
 
     private OffsetDateTime dueDate;
+
+    // Métodos de negócio
+    public Occurrence addOccurrence(String description) {
+        Occurrence occurrence = new Occurrence();
+        occurrence.setDescription(description);
+        occurrence.setRegistrationDate(OffsetDateTime.now());
+        occurrence.setDelivery(this); // A própria entrega na qual estamos adicionando a ocorrência
+
+        this.getOccurrences().add(occurrence);
+        return occurrence;
+    }
 }
