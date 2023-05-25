@@ -1,6 +1,7 @@
 package com.algaworks.algalog.api.exceptionhandler;
 
 import com.algaworks.algalog.domain.exception.DomainException;
+import com.algaworks.algalog.domain.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -43,6 +44,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         error.setFields(fields);
 
         return handleExceptionInternal(ex, error, headers, status, request);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class) // Caso EntityNotFoundException seja lançada em qualquer parte da aplicação, esse é o método responsável por tratá-la
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        StandardError error = new StandardError();
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        error.setStatus(status.value());
+        error.setDateTime(OffsetDateTime.now());
+        error.setMessage(ex.getMessage());
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(DomainException.class) // Caso DomainException seja lançada em qualquer parte da aplicação, esse é o método responsável por tratá-la
